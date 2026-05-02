@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Rohit Mods Store</title>
+
+<style>
+body{
+margin:0;
+font-family:Arial;
+background:#0f0f0f;
+color:#fff;
+}
+
+.navbar{
+display:flex;
+justify-content:space-between;
+padding:15px;
+background:#1a1a1a;
+}
+
+.navbar h2{color:red;}
+
+.search-box{
+display:flex;
+align-items:center;
+background:#222;
+padding:5px 10px;
+border-radius:10px;
+}
+
+.search-box .icon{
+font-size:14px;
+margin-right:5px;
+}
+
+.search-box input{
+border:none;
+background:transparent;
+color:white;
+outline:none;
+}
+
+.banner{
+padding:30px;
+text-align:center;
+background:linear-gradient(to right,red,black);
+font-size:22px;
+font-weight:bold;
+cursor:pointer;
+}
+
+.container{padding:20px;}
+
+.grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+gap:15px;
+}
+
+.card{
+background:#1f1f1f;
+padding:15px;
+border-radius:10px;
+text-align:center;
+}
+
+.icon-app{
+width:80px;
+height:80px;
+margin:auto;
+}
+
+.btn{
+background:red;
+color:#fff;
+border:none;
+padding:8px 15px;
+border-radius:5px;
+cursor:pointer;
+}
+
+.footer{
+text-align:center;
+padding:15px;
+background:#1a1a1a;
+}
+
+#loginBox,#adminPanel{
+display:none;
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:#000;
+text-align:center;
+padding-top:100px;
+}
+
+input{
+width:90%;
+padding:10px;
+margin:5px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="navbar">
+<h2>Rohit Mods</h2>
+
+<div class="search-box">
+<span class="icon">🔍</span>
+<input type="text" id="search" placeholder="Search..." onkeyup="searchApp()">
+</div>
+</div>
+
+<div class="banner" onclick="openLogin()">
+🔥 ROHIT MODS STORE 🔥<br>
+<small>Download APK Safely</small>
+</div>
+
+<div class="container">
+<div class="grid" id="appList"></div>
+</div>
+
+<div class="footer">© Rohit Mods 2026</div>
+
+<!-- LOGIN -->
+<div id="loginBox">
+<h2>Admin Login 🔐</h2>
+<input type="password" id="password" placeholder="Enter Password"><br>
+<button onclick="checkPassword()" class="btn">Login</button>
+</div>
+
+<!-- ADMIN -->
+<div id="adminPanel">
+<h2>Admin Panel</h2>
+<input id="name" placeholder="App Name">
+<input id="version" placeholder="Version">
+<input id="size" placeholder="Size">
+<input id="link" placeholder="APK Link">
+
+<button onclick="addApp()" class="btn">Add App</button>
+<button onclick="closeAdmin()" class="btn">Close</button>
+</div>
+
+<script>
+
+// Apps Data
+let apps = [
+{
+name:"Super Mods Body Headshot V7",
+version:"V7",
+size:"ZIP",
+link:"https://www.mediafire.com/file/4cwsibjp4u1z4nu/file"
+},
+{
+
+}
+];
+
+function renderApps(){
+let container=document.getElementById("appList");
+container.innerHTML="";
+
+apps.forEach(app=>{
+container.innerHTML+=`
+<div class="card">
+
+<svg class="icon-app" viewBox="0 0 100 100">
+<rect width="100" height="100" rx="20" fill="red"/>
+<text x="50%" y="55%" text-anchor="middle" font-size="35" fill="white">FF</text>
+</svg>
+
+<h3>${app.name}</h3>
+<p>${app.version} | ${app.size}</p>
+
+<a href="${app.link}" target="_blank">
+<button class="btn">Download</button>
+</a>
+
+</div>`;
+});
+}
+renderApps();
+
+// Add App
+function addApp(){
+let app={
+name:document.getElementById("name").value,
+version:document.getElementById("version").value,
+size:document.getElementById("size").value,
+link:document.getElementById("link").value
+};
+
+apps.push(app);
+renderApps();
+alert("Added ✅");
+}
+
+// Search
+function searchApp(){
+let input=document.getElementById("search").value.toLowerCase();
+document.querySelectorAll(".card").forEach(card=>{
+let t=card.querySelector("h3").innerText.toLowerCase();
+card.style.display = t.includes(input) ? "" : "none";
+});
+}
+
+// Login system
+let tap=0;
+
+function openLogin(){
+tap++;
+if(tap===5){
+document.getElementById("loginBox").style.display="block";
+tap=0;
+}
+}
+
+function checkPassword(){
+let pass=document.getElementById("password").value;
+
+if(pass==="rohit123"){
+document.getElementById("loginBox").style.display="none";
+document.getElementById("adminPanel").style.display="block";
+}else{
+alert("Wrong Password ❌");
+}
+}
+
+function closeAdmin(){
+document.getElementById("adminPanel").style.display="none";
+}
+
+</script>
+
+</body>
+</html>
